@@ -98,6 +98,15 @@
 
     /* LEFT SIDEBAR */
     .sidebar { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+
+    /* Lineup & Rules Boxes */
+    .lineup-box { background: #f8fafc; border: 2px solid #cbd5e1; padding: 12px; border-radius: 8px; text-align: center; }
+    .lineup-box h4 { font-size: 0.9rem; color: #0f172a; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .lineup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 8px; }
+    .lineup-pos { background: white; border: 1px solid #94a3b8; padding: 6px 0; border-radius: 4px; font-weight: 700; font-size: 0.85rem; color: #1e293b; }
+    .lineup-pos span { display: block; font-size: 0.65rem; color: #64748b; font-weight: 600; text-transform: uppercase; margin-bottom: 2px; }
+    .lineup-note { font-size: 0.75rem; color: #475569; font-style: italic; background: #e2e8f0; padding: 4px; border-radius: 4px; }
+
     .sub-rules { background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px; border-radius: 8px; }
     .sub-rules h4 { font-size: 0.85rem; color: #1e3a8a; margin-bottom: 6px; text-transform: uppercase; }
     .sub-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
@@ -277,6 +286,23 @@
 
 <div class="container">
   <div class="sidebar">
+
+    <!-- NEW: EXPLICIT STARTING LINEUP -->
+    <div class="lineup-box">
+      <h4>🎯 Official Starting Lineup</h4>
+      <div class="lineup-grid">
+        <div class="lineup-pos"><span>Pos 4 (L)</span> Adi</div>
+        <div class="lineup-pos"><span>Pos 3 (M)</span> Somu</div>
+        <div class="lineup-pos"><span>Pos 2 (R)</span> Raja</div>
+        <div class="lineup-pos"><span>Pos 5 (L)</span> Sunny</div>
+        <div class="lineup-pos" style="background:#dcfce7; border-color:#16a34a;"><span>Pos 6 (M)</span> Murali</div>
+        <div class="lineup-pos"><span>Pos 1 (R)</span> Sunil</div>
+      </div>
+      <div class="lineup-note">
+        *Murali officially starts for Pratap in Position 6 based on back-row substitution rules.
+      </div>
+    </div>
+
     <div class="sub-rules">
       <h4>Active Substitution Rules</h4>
       <div class="sub-grid">
