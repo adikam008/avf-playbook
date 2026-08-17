@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AVF Semi Finals Plan & Team Roster</title>
+  <style>
+    :root {
+      --bg-white: #f8fafc;
+      --card-white: #ffffff;
+      --border-color: #e2e8f0;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --court-light-green: #dcfce7;
+      --court-border: #15803d;
+      --net-orange: #ff5722;
+      --accent-blue: #0284c7;
+      --accent-gold: #d97706;
+      --accent-red: #dc2626;
+      --accent-green: #16a34a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg-white); color: var(--text-dark); padding: 16px; display: flex; flex-direction: column; align-items: center; }
+    
+    header { text-align: center; margin-bottom: 20px; width: 100%; max-width: 1400px; }
+    h1 { font-size: 1.8rem; color: #1e3a8a; margin-bottom: 4px; font-weight: 800; letter-spacing: -0.5px; }
+    header p { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* Player Mental Map / Cheat Sheet Section */
+    .mental-map-section {
+      width: 100%; max-width: 1400px; margin-bottom: 24px; background: #ffffff; padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+    }
+    .section-title {
+      font-size: 1.2rem; color: #0f172a; margin-bottom: 12px; font-weight: 700; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;
+    }
+    .player-selector {
+      display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; scrollbar-width: none;
+    }
+    .player-selector::-webkit-scrollbar { display: none; }
+    .player-pill {
+      padding: 8px 18px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 20px; cursor: pointer; font-weight: 700; font-size: 0.9rem; white-space: nowrap; transition: all 0.2s; color: #334155;
+    }
+    .player-pill:hover { background: #e2e8f0; }
+    .player-pill.active { background: #0284c7; color: white; border-color: #0284c7; box-shadow: 0 3px 8px rgba(2, 132, 199, 0.3); }
+
+    .cheat-sheet-card {
+      background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 16px; display: none; animation: fadeIn 0.3s ease;
+    }
+    .cheat-sheet-card.active { display: block; }
+    .cs-header { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; }
+    @media (min-width: 600px) { .cs-header { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .cs-name-wrapper { display: flex; align-items: center; gap: 10px; }
+    .cs-name { font-size: 1.6rem; color: #1e3a8a; font-weight: 800; text-transform: uppercase; }
+    .cs-role { font-size: 0.8rem; background: #e0e7ff; color: #3730a3; padding: 4px 8px; border-radius: 4px; font-weight: 700; }
+    .cs-hype { font-style: italic; color: #0284c7; font-size: 0.95rem; font-weight: 600; }
+    
+    .cs-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media(min-width: 768px) { .cs-grid { grid-template-columns: 1fr 1fr; } }
+    .cs-box { background: white; border: 1px solid #cbd5e1; border-left: 5px solid #0284c7; padding: 12px 16px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .cs-box.tips { border-left-color: #eab308; }
+    .cs-box.reactions { border-left-color: #22c55e; }
+    .cs-box h4 { font-size: 0.95rem; color: #1e293b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+    .cs-box ul { list-style: none; padding: 0; }
+    .cs-box li { font-size: 0.85rem; margin-bottom: 6px; padding-left: 16px; position: relative; line-height: 1.5; color: #334155; font-weight: 500; }
+    .cs-box li::before { content: "▹"; position: absolute; left: 0; color: #0284c7; font-weight: bold; font-size: 1rem; top: -1px; }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Roster Container */
+    .roster-container { width: 100%; max-width: 1400px; margin-bottom: 24px; background: #ffffff; padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+    .roster-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 768px) { .roster-grid { grid-template-columns: repeat(3, 1fr); } }
+    .role-group h3 { font-size: 0.95rem; color: #475569; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .card-list { display: flex; flex-direction: column; gap: 8px; }
+    
+    .player-card { background: #f8fafc; border: 1px solid #cbd5e1; border-left: 5px solid #94a3b8; padding: 10px 12px; border-radius: 6px; display: flex; flex-direction: column; gap: 4px; }
+    .player-card.hitter { border-left-color: var(--accent-red); }
+    .player-card.setter { border-left-color: var(--accent-gold); }
+    .player-card.defense { border-left-color: var(--accent-green); }
+    
+    .card-header { display: flex; justify-content: space-between; align-items: center; }
+    .card-name { font-weight: 800; font-size: 0.95rem; color: #1e293b; }
+    .card-tags { display: flex; gap: 4px; }
+    .tag { font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+    .tag.front { background: #fee2e2; color: #991b1b; }
+    .tag.back { background: #dcfce7; color: #166534; }
+    .tag.all { background: #fef08a; color: #854d0e; }
+    
+    .card-sub { font-size: 0.75rem; color: #475569; background: #e2e8f0; padding: 4px 8px; border-radius: 4px; margin-top: 4px; font-weight: 600; line-height: 1.4; }
+
+    /* Board Layout */
+    .container { display: flex; flex-direction: column-reverse; gap: 20px; max-width: 1400px; width: 100%; }
+    @media (min-width: 960px) {
+      .container { flex-direction: row; align-items: flex-start; }
+      .sidebar { flex: 0 0 360px; max-height: 860px; overflow-y: auto; padding-right: 8px; }
+      .court-wrapper { flex: 1; }
+    }
+
+    /* LEFT SIDEBAR */
+    .sidebar { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+    .sub-rules { background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px; border-radius: 8px; }
+    .sub-rules h4 { font-size: 0.85rem; color: #1e3a8a; margin-bottom: 6px; text-transform: uppercase; }
+    .sub-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
+    .sub-item { background: white; padding: 6px 10px; border-radius: 4px; font-size: 0.8rem; border: 1px solid #dbeafe; display: flex; justify-content: space-between; font-weight: 600; color: #1e293b; }
+    .sub-item span { color: #64748b; font-weight: 500; font-size: 0.75rem; }
+    
+    .flow-rules { background: #fefce8; border: 1px solid #fef08a; padding: 10px; border-radius: 8px; }
+    .flow-rules h4 { font-size: 0.85rem; color: #854d0e; margin-bottom: 6px; text-transform: uppercase; }
+    .flow-list { list-style: none; font-size: 0.8rem; color: #422006; display: flex; flex-direction: column; gap: 6px; }
+    .flow-list li { background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #fef08a; line-height: 1.4; }
+    .flow-list strong { color: #b45309; }
+    
+    .danger-rule { background: #fef2f2 !important; border-color: #fca5a5 !important; color: #991b1b !important; }
+    .danger-rule strong { color: #7f1d1d !important; }
+
+    .scenario-list { display: flex; flex-direction: column; gap: 6px; }
+    .scenario-row { background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; user-select: none; }
+    .scenario-row:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    .scenario-row.active { background: #0284c7; border-color: #0284c7; color: #ffffff; box-shadow: 0 3px 8px rgba(2, 132, 199, 0.25); }
+    .scenario-row .s-info { display: flex; flex-direction: column; gap: 2px; flex: 1; padding-right: 8px; }
+    .scenario-row .s-title { font-size: 0.85rem; font-weight: 700; }
+    .scenario-row .s-sub { font-size: 0.72rem; opacity: 0.9; }
+
+    .inline-play-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: #f1f5f9; color: #0284c7; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; font-weight: bold; }
+    .scenario-row.active .inline-play-btn { background: #ffffff; color: #0284c7; }
+
+    .info-card { background: #ffffff; border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; font-size: 0.85rem; }
+    .info-card h3 { color: #0284c7; font-size: 0.95rem; margin-bottom: 8px; }
+    .info-card ul { list-style-position: inside; line-height: 1.5; color: #334155; margin-bottom: 10px; }
+    .info-card li { margin-bottom: 6px; }
+    .tactical-box { padding: 8px 10px; background: #fefce8; border-left: 4px solid #eab308; border-radius: 4px; font-size: 0.8rem; color: #854d0e; line-height: 1.4; }
+
+    /* RIGHT COURT */
+    .court-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .court-scaler { width: 100%; display: flex; justify-content: center; overflow-x: auto; padding: 6px; }
+    .court-shadow { padding: 8px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+    
+    .court { width: 440px; height: 720px; background: var(--court-light-green); border: 3.5px solid var(--court-border); position: relative; border-radius: 4px; overflow: visible; }
+    .court-status-banner { position: absolute; top: 10px; left: 12px; right: 12px; background: rgba(15, 23, 42, 0.92); color: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.22); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; z-index: 30; pointer-events: none; }
+    .court-status-banner .phase-tag { color: #38bdf8; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.5px; }
+    .court-status-banner .phase-desc { color: #f1f5f9; font-size: 0.78rem; font-weight: 500; line-height: 1.3; }
+
+    .pole-left, .pole-right { position: absolute; top: 360px; width: 12px; height: 12px; background: #475569; border: 2px solid #fff; border-radius: 50%; z-index: 25; }
+    .pole-left { left: -22px; } .pole-right { right: -22px; }
+    .net-band { position: absolute; top: 356px; left: -18px; right: -18px; height: 8px; background: var(--net-orange); box-shadow: 0 0 10px rgba(255, 87, 34, 0.7); border-top: 1.5px solid #fff; border-bottom: 1.5px solid #fff; z-index: 15; }
+    .attack-opp { position: absolute; top: 240px; left: 0; right: 0; height: 2px; background: #166534; opacity: 0.4; }
+    .attack-us { position: absolute; top: 480px; left: 0; right: 0; height: 2px; background: #166534; opacity: 0.4; }
+    .line-tag { position: absolute; font-size: 9px; font-weight: 800; color: #166534; opacity: 0.65; letter-spacing: 0.5px; text-transform: uppercase; }
+
+    .token { position: absolute; width: 48px; height: 48px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; border: 2px solid #ffffff; transform: translate(-50%, -50%); transition: top 0.75s cubic-bezier(0.25, 1, 0.5, 1), left 0.75s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 3px 6px rgba(0,0,0,0.18); z-index: 10; text-align: center; line-height: 1.1; }
+    .token .role { font-size: 7.5px; font-weight: normal; opacity: 0.95; margin-top: 2px; }
+    .token.us-hitter { background: var(--accent-red); color: #fff; }
+    .token.us-setter { background: var(--accent-gold); color: #fff; border-color: #fff; } 
+    .token.us-back { background: var(--accent-green); color: #fff; }
+    .token.opp-player { background: #475569; color: #f8fafc; border-color: #cbd5e1; opacity: 0.9; }
+
+    .token.active-focus { box-shadow: 0 0 0 4px #facc15, 0 0 14px rgba(250, 204, 21, 0.95); transform: translate(-50%, -50%) scale(1.15); z-index: 18; }
+    .token.active-block { box-shadow: 0 0 0 4px #38bdf8, 0 0 14px rgba(56, 189, 248, 0.95); transform: translate(-50%, -50%) scale(1.1); z-index: 18; }
+    .token.active-dig { box-shadow: 0 0 0 4px #22c55e, 0 0 14px rgba(34, 197, 94, 0.95); transform: translate(-50%, -50%) scale(1.1); z-index: 18; }
+
+    .ball { position: absolute; width: 26px; height: 26px; background: #facc15; border: 2.5px solid #ffffff; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(0,0,0,0.35), 0 0 12px #eab308; z-index: 22; transition: top 0.75s cubic-bezier(0.25, 1, 0.5, 1), left 0.75s cubic-bezier(0.25, 1, 0.5, 1); }
+
+    .motion-toolbar { width: 100%; max-width: 440px; margin-top: 12px; display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .ctrl-btns { display: flex; gap: 8px; }
+    .ctrl-btn { background: #f1f5f9; border: 1px solid #cbd5e1; color: #1e293b; padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s ease; }
+    .ctrl-btn:hover { background: #e2e8f0; }
+    .ctrl-btn.primary { background: #0284c7; color: #ffffff; border-color: #0284c7; }
+    .phase-dots { display: flex; gap: 6px; align-items: center; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; transition: all 0.3s ease; }
+    .dot.active { background: #0284c7; transform: scale(1.3); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>AVF Semi Finals Tactical Board</h1>
+  <p>Interactive Playbook & Roster Roles</p>
+</header>
+
+<section class="mental-map-section">
+  <h2 class="section-title">Player Mental Maps & Cheat Sheets</h2>
+  
+  <div class="player-selector" id="player-selector">
+    <!-- Buttons generated by JS -->
+  </div>
+
+  <div id="cheat-sheet-display" class="cheat-sheet-card">
+    <div class="cs-header">
+      <div class="cs-name-wrapper">
+        <span class="cs-name" id="cs-name">Player Name</span>
+        <span class="cs-role" id="cs-role">Role</span>
+      </div>
+      <div class="cs-hype" id="cs-hype">"Hype quote goes here!"</div>
+    </div>
+    
+    <div class="cs-grid">
+      <div class="cs-box tips">
+        <h4>💡 Things to Think About</h4>
+        <ul id="cs-tips-list"></ul>
+      </div>
+      <div class="cs-box reactions">
+        <h4>⚡ Game Reactions</h4>
+        <ul id="cs-reactions-list"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="roster-container">
+  <h2 class="section-title">Team Roster Summary</h2>
+  <div class="roster-grid">
+    
+    <div class="role-group">
+      <h3>🔴 Front-Row Hitters</h3>
+      <div class="card-list">
+        <div class="player-card hitter">
+          <div class="card-header"><span class="card-name">Pratap</span><div class="card-tags"><span class="tag front">Front</span></div></div>
+          <span style="font-size: 0.8rem; color: #64748b;">Primary Outside Hitter (LF)</span>
+          <div class="card-sub">🔄 Subs out for Murali in Back-Row</div>
+        </div>
+        <div class="player-card hitter">
+          <div class="card-header"><span class="card-name">Adi</span><div class="card-tags"><span class="tag front">Front</span></div></div>
+          <span style="font-size: 0.8rem; color: #64748b;">Pin Hitter</span>
+          <div class="card-sub">🔄 Subs out for Guna in Back-Row</div>
+        </div>
+        <div class="player-card hitter">
+          <div class="card-header"><span class="card-name">Rohit</span><div class="card-tags"><span class="tag front">Front</span></div></div>
+          <span style="font-size: 0.8rem; color: #64748b;">Pin Hitter</span>
+          <div class="card-sub">🔄 Subs out for Sunil in Back-Row</div>
+        </div>
+        <div class="player-card hitter">
+          <div class="card-header"><span class="card-name">Somu</span><div class="card-tags"><span class="tag front">Front</span></div></div>
+          <span style="font-size: 0.8rem; color: #64748b;">Middle/Front Hitter (MF)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <h3>🟡 6-Rotation Players</h3>
+      <div class="card-list">
+        <div class="player-card setter">
+          <div class="card-header"><span class="card-name">Raja</span><div class="card-tags"><span class="tag all">6 Rotations</span></div></div>
+          <span style="font-size: 0.8rem; color: #64748b;">Setter & Defense / No Subs</span>
+          <div class="card-sub">Plays all 3 backrow positions + middle/center forward.</div>
+        </div>
+        <div class="player-card setter">
+          <div class="card-header"><span class="card-name">Sunny</span><div class="card-tags"><span class="tag all">6 Rotations</span></div></div>
+          <span style="font-size: 0.8rem; color: #64748b;">Setter & Defense / No Subs</span>
+          <div class="card-sub">Plays all 3 backrow positions + middle/center forward.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <h3>🟢 Back-Row Defense</h3>
+      <div class="card-list">
+        <div class="player-card defense">
+          <div class="card-header"><span class="card-name">Guna</span><div class="card-tags"><span class="tag back">Back</span></div></div>
+          <span style="font-size: 0.8rem; color: #64748b;">Deep Defense / Passer</span>
+          <div class="card-sub">🔄 Replaces Adi in Back-Row</div>
+        </div>
+        <div class="player-card defense">
+          <div class="card-header"><span class="card-name">Sunil</span><div class="card-tags"><span class="tag back">Back</span></div></div>
+          <span style="font-size: 0.8rem; color: #64748b;">Deep Defense / Passer</span>
+          <div class="card-sub">🔄 Replaces Rohit in Back-Row</div>
+        </div>
+        <div class="player-card defense">
+          <div class="card-header"><span class="card-name">Murali</span><div class="card-tags"><span class="tag back">Back</span></div></div>
+          <span style="font-size: 0.8rem; color: #64748b;">Deep Defense / Passer</span>
+          <div class="card-sub">🔄 Replaces Pratap in Back-Row</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="container">
+  <div class="sidebar">
+    <div class="sub-rules">
+      <h4>Active Substitution Rules</h4>
+      <div class="sub-grid">
+        <div class="sub-item">Pratap ⇄ Murali <span>(Murali plays Back Row)</span></div>
+        <div class="sub-item">Adi ⇄ Guna <span>(Guna plays Back Row)</span></div>
+        <div class="sub-item">Rohit ⇄ Sunil <span>(Sunil plays Back Row)</span></div>
+      </div>
+    </div>
+
+    <div class="flow-rules">
+      <h4>🔄 Flow & 3rd Touch Rules</h4>
+      <ul class="flow-list">
+        <li><strong>On Our Serve:</strong> Serve the ball, then simply toss and rotate to your defensive spots, or use a quick stack. Keep it simple!</li>
+        <li><strong>On Their Serve:</strong> Line up in Serve Receive formation. Pass the ball, run the attack, and <em>then</em> rotate to your defensive base.</li>
+        <li class="danger-rule"><strong>⚠️ 3rd Touch Underarm Close to Net:</strong> Do NOT stay down on defense! Front row MUST go up and BLOCK it.</li>
+        <li><strong>3rd Touch 2-Hand Push:</strong> Backrow stays deep at 21ft to defend and cushion the pass.</li>
+      </ul>
+    </div>
+
+    <div class="scenario-list">
+      <div class="scenario-row active" onclick="selectScenario('1_ashwin', this)">
+        <div class="s-info"><span class="s-title">1. Setter Sets to Ashwin</span><span class="s-sub">Pratap/Somu Wall + Sunny Scoops to Raja</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+      <div class="scenario-row" onclick="selectScenario('2_mahesh', this)">
+        <div class="s-info"><span class="s-title">2. Setter Sets to Mahesh</span><span class="s-sub">Somu & Raja Double Block + Guna Z5 Dig</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+      <div class="scenario-row" onclick="selectScenario('3_pratap_hit_cover', this)">
+        <div class="s-info"><span class="s-title">3. When Pratap Hits (Cover)</span><span class="s-sub">Tight 6ft Cover Ring (Somu/Sunny/Raja/Guna)</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+      <div class="scenario-row" onclick="selectScenario('4_block_conviction', this)">
+        <div class="s-info"><span class="s-title">4. When We Block</span><span class="s-sub">100% Press Hands Across Net or Peel</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+      <div class="scenario-row" onclick="selectScenario('5_pratap_weakness', this)">
+        <div class="s-info"><span class="s-title">5. Pratap: Peel & Face Inward</span><span class="s-sub">Face inward toward Raja on right-side sets</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+      <div class="scenario-row" onclick="selectScenario('6_raja_setter_flow', this)">
+        <div class="s-info"><span class="s-title">6. Raja: Setter Flow</span><span class="s-sub">Raja delivers high balls from RF target</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+      <div class="scenario-row" onclick="selectScenario('7_rohit_wait_up', this)">
+        <div class="s-info"><span class="s-title">7. Rohit: Wait on Broken Pass</span><span class="s-sub">Hold 10ft line for Raja's high front-row set</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+      <div class="scenario-row" onclick="selectScenario('8_guna_vocal_lead', this)">
+        <div class="s-info"><span class="s-title">8. Guna: Vocal Defense Lead</span><span class="s-sub">Direct perimeter depth & feed dimes to Raja</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+      <div class="scenario-row" onclick="selectScenario('9_underarm_free', this)">
+        <div class="s-info"><span class="s-title">9. Opponent Free Ball</span><span class="s-sub">Front peels to 10ft, Backrow passes dime</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+      <div class="scenario-row" onclick="selectScenario('10_two_hand_push', this)">
+        <div class="s-info"><span class="s-title">10. Deep 2-Hand Push</span><span class="s-sub">Stand at 21ft with open hands, cushion set</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3 id="scenario-title">1. Setter Sets to Ashwin</h3>
+      <ul id="scenario-instructions">
+        <li><strong>Ashwin's Options:</strong> Wrist flicks into 12-14ft hole, sharp lines.</li>
+        <li><strong>Block Defense:</strong> Pratap & Somu jump together; Raja holds RF.</li>
+        <li><strong>Sunny (13 ft):</strong> Stays on toes at Center-Up to scoop short balls to Raja.</li>
+      </ul>
+      <div class="tactical-box" id="scenario-tip">
+        💡 <strong>Key Focus:</strong> Ashwin thrives when blockers jump late. Sunny owns the 12-14 ft tip pocket!
+      </div>
+    </div>
+  </div>
+
+  <div class="court-wrapper">
+    <div class="court-scaler">
+      <div class="court-shadow">
+        <div class="court" id="court">
+          <div class="court-status-banner">
+            <span id="phase-tag" class="phase-tag">Phase 1/4: Opponent Setup</span>
+            <span id="phase-desc" class="phase-desc">Setter prepares distribution</span>
+          </div>
+          <div class="pole-left"></div><div class="pole-right"></div>
+          <div class="net-band"></div>
+          <div class="attack-opp"><span class="line-tag" style="top: -14px; right: 8px;">10-FT Line</span></div>
+          <div class="attack-us"><span class="line-tag" style="top: 4px; right: 8px;">10-FT Line</span></div>
+
+          <div id="ball" class="ball" style="top: 240px; left: 220px;"></div>
+
+          <div id="opp_l" class="token opp-player" style="top: 200px; left: 80px;"><span>Ashwin</span><span class="role">Left Pin</span></div>
+          <div id="opp_m" class="token opp-player" style="top: 180px; left: 220px;"><span>Setter</span><span class="role">Sets</span></div>
+          <div id="opp_r" class="token opp-player" style="top: 200px; left: 360px;"><span>Mahesh</span><span class="role">Right Pin</span></div>
+
+          <div id="us_p4" class="token us-hitter" style="top: 400px; left: 80px;"><span>Pratap</span><span class="role">LF Attack</span></div>
+          <div id="us_p3" class="token us-hitter" style="top: 400px; left: 220px;"><span>Somu</span><span class="role">MF Mid</span></div>
+          <div id="us_p2" class="token us-setter" style="top: 400px; left: 360px;"><span>Raja</span><span class="role">RF Setter</span></div>
+          <div id="us_rover" class="token us-setter" style="top: 525px; left: 220px;"><span>Sunny</span><span class="role">Center-Up</span></div>
+          <div id="us_lb" class="token us-back" style="top: 640px; left: 90px;"><span>Guna</span><span class="role">LB Def</span></div>
+          <div id="us_rb" class="token us-back" style="top: 640px; left: 350px;"><span>Sunil</span><span class="role">RB Def</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="motion-toolbar">
+      <div class="ctrl-btns">
+        <button id="play-btn" class="ctrl-btn primary" onclick="togglePlay()">▶ Play Motion</button>
+        <button class="ctrl-btn" onclick="stepMotion()">Step ➔</button>
+        <button class="ctrl-btn" onclick="resetMotion()">⏮ Reset</button>
+      </div>
+      <div class="phase-dots" id="phase-dots">
+        <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- INDIVIDUALIZED CHEAT SHEET DATA ---
+  const cheatSheets = {
+    'Pratap': {
+      role: 'Primary Outside Hitter (LF)',
+      hype: '"Middle or outside, you bring the heat! Don\'t admire your work—reset and reload!"',
+      tips: [
+        'Avoid the "One Hit Wonder" trap: If you hit and the ball comes right back, DO NOT just stand at the net! Backpedal to the 3m line and reset your approach.',
+        'Keep unleashing that killer strong serve. We need those points!',
+        'If the pass goes right to Raja, instantly peel to the 3m line and turn your chest inward.'
+      ],
+      reactions: [
+        'Opponent 3rd touch underarm close to the net? Jump and BLOCK it! Do not wait on defense.',
+        'Blocking? 100% conviction. Press hands completely across the net.'
+      ]
+    },
+    'Adi': {
+      role: 'Pin Hitter',
+      hype: '"The Gap Finder! Keep swinging and tooling the block into oblivion."',
+      tips: [
+        'Your job is relentless offense. Find the gaps in their defense and exploit them.',
+        'Use the blockers\' hands to your advantage—tool them or push around them.',
+        'Hold the 10-ft line depth when a pass is broken or shanks deep. Let Raja bring the ball to you.'
+      ],
+      reactions: [
+        'Bad pass? Don\'t panic, adjust and look for the smart gap to push the ball.',
+        'Opponent 3rd touch underarm tight to the net? Go up and BLOCK IT!'
+      ]
+    },
+    'Rohit': {
+      role: 'Pin Hitter',
+      hype: '"Smart swings and killer serves! Timing is everything."',
+      tips: [
+        'If the set is trash, just wait! Don\'t force a bad jump. Hitting a smart ball from the back is 100x better than an error. Don\'t worry about huge power.',
+        'Keep bringing that heavy strong serve!',
+        'Go aggressively for the blocks when the opportunity is there.'
+      ],
+      reactions: [
+        'Opponent 3rd touch underarm tight to the net? Go up and BLOCK IT! If they push with two hands, stay back and defend.',
+        'When प्रताप (Pratap) hits: Get in position to cover any block rebounds.'
+      ]
+    },
+    'Somu': {
+      role: 'Middle/Front Hitter (MF)',
+      hype: '"The Unstoppable Middle! You\'re crushing it, keep the momentum rolling."',
+      tips: [
+        'Keep doing exactly what you\'re doing! Use your middle flexibility to attack both sides of the court.',
+        'Keep firing away with that strong serve. Serve aggressive!',
+        'Read the setter closely to anticipate those back-sets to Mahesh.'
+      ],
+      reactions: [
+        'Opponent 3rd touch underarm close to the net? Stuff it back in their face with a block!',
+        'When Pratap hits: Drop off the net into a low, tight 6ft cover ring.'
+      ]
+    },
+    'Raja': {
+      role: '6-Rotation Setter & Defense',
+      hype: '"The Playmaker! Lead the offense, read the defense, and stay off your heels!"',
+      tips: [
+        'Set with INTENT! Put the ball between the spiker and the net. Don\'t set the ball to where they are standing; give them room to approach.',
+        'If Pratap forgets to reset after hitting, skip him! Feed the other hitters or dump it in a gap.',
+        'No more standing on your heels admiring the ball! Stay active. If you are exhausted, call a timeout, but while you are playing, MOVE!'
+      ],
+      reactions: [
+        'Opponent right side hitting? Scoot right immediately and anticipate the drop behind our block. Don\'t wait for someone to remind you!',
+        'When Pratap hits: Collapse in a tight 6ft ring to cover any block rebounds.'
+      ]
+    },
+    'Sunny': {
+      role: '6-Rotation Setter & Defense',
+      hype: '"The Iron Wall of Defense! Talk loud, move fast, and scoop the tips!"',
+      tips: [
+        'Set with PURPOSE! Guide the ball between the net and the hitter so they can step into it. Tight to the net is better than 10 feet off it!',
+        'Guard the front line. Stay on your toes for short tips falling before the 3m line.',
+        'Talk constantly—no silent movie acting! Don\'t just watch the ball while it\'s in the air.'
+      ],
+      reactions: [
+        'When we are hitting: Sprint near the block and get ready to scoop the cover tips!',
+        'Opponent playing underarm? If it comes close to the net, stay up and take it. If it goes deep, let the backrow handle it. Read the play!'
+      ]
+    },
+    'Guna': {
+      role: 'Backrow Defense Captain',
+      hype: '"The Heart of the Backcourt! Eat those hard hits for breakfast."',
+      tips: [
+        'You are the magnet for Mahesh\'s hard hits. Read the spiker\'s chest to predict the angle and set your platform early.',
+        'Do not become a statue! Stay on your toes, keep bouncing, and NEVER stop talking.',
+        'Your passing sets the entire rhythm. Demand the deep balls and keep our setters fed!'
+      ],
+      reactions: [
+        'Hard cross coming? Read the chest, plant your feet, and pop a perfect dime.',
+        'Opponent pushes 2-hands deep? Stand firm at 21ft with open overhead hands to cushion the pass.'
+      ]
+    },
+    'Sunil': {
+      role: 'Deep Defense / Passer',
+      hype: '"The Backline Sniper! Killer serves and fluid defensive rotations."',
+      tips: [
+        'You are new to the defensive formations, so stay fluid! Listen to your teammates if they direct you—it\'s just part of the system.',
+        'Always communicate with the Center Forward (Raja/Sunny) to coordinate your swaps in this formation.',
+        'Your serves are absolute fire right now—keep doing that, we need those points tomorrow!'
+      ],
+      reactions: [
+        'Opponent pushes 2-hands deep? Get your hands up early and cushion it to the net.',
+        'When rotating: Lock eyes with Raja/Sunny to ensure the swap is seamless.'
+      ]
+    },
+    'Murali': {
+      role: 'Deep Defense / Passer',
+      hype: '"Every dig is a chance to score. Be relentless in the back row!"',
+      tips: [
+        'Watch the setter\'s eyes and the hitter\'s approach angle. Anticipate where the ball will go.',
+        'Keep your platform simple and quiet. Let the ball do the work on hard swings.'
+      ],
+      reactions: [
+        'Opponent 3rd touch underarm pass deep? Stay disciplined in the back row and prepare to pass a dime.',
+        'When our hitters swing: Push forward to support the cover ring.'
+      ]
+    }
+  };
+
+  // Render player pills
+  const selector = document.getElementById('player-selector');
+  Object.keys(cheatSheets).forEach((player, index) => {
+    const btn = document.createElement('button');
+    btn.className = `player-pill ${index === 0 ? 'active' : ''}`;
+    btn.textContent = player;
+    btn.onclick = () => loadCheatSheet(player, btn);
+    selector.appendChild(btn);
+  });
+
+  // Load selected cheat sheet
+  function loadCheatSheet(playerName, btnElement) {
+    document.querySelectorAll('.player-pill').forEach(b => b.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
+    
+    const data = cheatSheets[playerName];
+    const card = document.getElementById('cheat-sheet-display');
+    
+    // reset animation
+    card.classList.remove('active');
+    void card.offsetWidth; 
+    card.classList.add('active');
+
+    document.getElementById('cs-name').textContent = playerName;
+    document.getElementById('cs-role').textContent = data.role;
+    document.getElementById('cs-hype').textContent = data.hype;
+
+    const tipsList = document.getElementById('cs-tips-list');
+    tipsList.innerHTML = '';
+    data.tips.forEach(t => {
+      const li = document.createElement('li'); li.innerHTML = t; tipsList.appendChild(li);
+    });
+
+    const reactionsList = document.getElementById('cs-reactions-list');
+    reactionsList.innerHTML = '';
+    data.reactions.forEach(r => {
+      const li = document.createElement('li'); li.innerHTML = r; reactionsList.appendChild(li);
+    });
+  }
+
+  // --- EXISTING PLAYBOOK LOGIC ---
+  let currentKey = '1_ashwin';
+  let currentPhase = 0;
+  let isPlaying = false;
+  let playInterval = null;
+  const STEP_SPEED_MS = 2500;
+
+  const scenarios = {
+    '1_ashwin': {
+      title: "1. Setter Sets to Ashwin (Options & Defense)",
+      tip: "💡 <strong>Ashwin Matchup:</strong> Ashwin looks for defenders backing off. Pratap & Somu form a committed wall; Sunny scoops the tip at 13ft straight to Raja!",
+      instructions: [
+        "<strong>Phase 1:</strong> Opponent feeds left pin. Pratap & Somu form double wall; Raja holds RF.",
+        "<strong>Phase 2:</strong> Ashwin drops elbow to flick over the block shadow.",
+        "<strong>Phase 3:</strong> Sunny steps into the 12-14ft hole, popping the ball to Raja at the net.",
+        "<strong>Phase 4:</strong> Raja high sets to Pratap for counter-attack."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/4: Opponent Sets Left Pin", desc: "Pratap & Somu form committed double wall; Raja holds RF block ready.",
+          ball: { top: "240px", left: "120px" }, focus: { block: ["us_p4", "us_p3"], dig: ["us_rover"] },
+          opp: { opp_l: { top: "280px", left: "80px", label: "Ashwin", role: "Approach" }, opp_m: { top: "230px", left: "220px", label: "Setter", role: "Pin Set" }, opp_r: { top: "180px", left: "360px", label: "Mahesh", role: "Cover" } },
+          us: { us_p4: { top: "395px", left: "80px", label: "Pratap", role: "Line Wall" }, us_p3: { top: "395px", left: "155px", label: "Somu", role: "Angle Wall" }, us_p2: { top: "420px", left: "355px", label: "Raja", role: "RF Ready" }, us_rover: { top: "525px", left: "220px", label: "Sunny", role: "Ready 13ft" }, us_lb: { top: "640px", left: "90px", label: "Guna", role: "Line Dig" }, us_rb: { top: "640px", left: "350px", label: "Sunil", role: "Deep Angle" } }
+        },
+        {
+          tag: "Phase 2/4: Ashwin Wrist Flick / Soft Tip", desc: "Ashwin drops elbow to tip over the block into the 13ft hole.",
+          ball: { top: "420px", left: "170px" }, focus: { block: ["us_p4", "us_p3"], dig: ["us_rover"] },
+          opp: { opp_l: { top: "320px", left: "80px", label: "Ashwin", role: "Wrist Flick" }, opp_m: { top: "240px", left: "220px", label: "Setter", role: "Watch" }, opp_r: { top: "200px", left: "350px", label: "Mahesh", role: "Cover" } },
+          us: { us_p4: { top: "390px", left: "80px", label: "Pratap", role: "Press Net" }, us_p3: { top: "390px", left: "155px", label: "Somu", role: "Press Net" }, us_p2: { top: "420px", left: "340px", label: "Raja", role: "Watch Ball" }, us_rover: { top: "490px", left: "180px", label: "Sunny", role: "Step to Hole!" }, us_lb: { top: "630px", left: "90px", label: "Guna", role: "Hold Base" }, us_rb: { top: "635px", left: "350px", label: "Sunil", role: "Hold Base" } }
+        },
+        {
+          tag: "Phase 3/4: Sunny Scoops to Raja (RF Setter)", desc: "Sunny swallows the short tip cleanly and delivers a dime to Raja at the net.",
+          ball: { top: "430px", left: "310px" }, focus: { dig: ["us_rover"], focus: ["us_p2"] },
+          opp: { opp_l: { top: "330px", left: "80px", label: "Ashwin", role: "Land" }, opp_m: { top: "260px", left: "220px", label: "Setter", role: "Defend" }, opp_r: { top: "220px", left: "350px", label: "Mahesh", role: "Defend" } },
+          us: { us_p4: { top: "435px", left: "80px", label: "Pratap", role: "Peel Pin" }, us_p3: { top: "435px", left: "175px", label: "Somu", role: "Land & Turn" }, us_p2: { top: "410px", left: "330px", label: "Raja", role: "Set Ready" }, us_rover: { top: "480px", left: "180px", label: "Sunny", role: "Pass to Raja" }, us_lb: { top: "625px", left: "95px", label: "Guna", role: "Cover" }, us_rb: { top: "630px", left: "330px", label: "Sunil", role: "Cover" } }
+        },
+        {
+          tag: "Phase 4/4: Raja Delivers High Ball to Pratap", desc: "Raja pushes clean 14ft high set to Pratap for outside kill.",
+          ball: { top: "405px", left: "80px" }, focus: { focus: ["us_p4"] },
+          opp: { opp_l: { top: "330px", left: "90px", label: "Ashwin", role: "Block Line" }, opp_m: { top: "310px", left: "200px", label: "Setter", role: "Mid Block" }, opp_r: { top: "240px", left: "350px", label: "Mahesh", role: "Deep Cover" } },
+          us: { us_p4: { top: "405px", left: "80px", label: "Pratap", role: "Full Swing" }, us_p3: { top: "445px", left: "175px", label: "Somu", role: "Cover Hit" }, us_p2: { top: "420px", left: "320px", label: "Raja", role: "Set Complete" }, us_rover: { top: "490px", left: "200px", label: "Sunny", role: "Cover" }, us_lb: { top: "615px", left: "100px", label: "Guna", role: "Cover" }, us_rb: { top: "620px", left: "320px", label: "Sunil", role: "Cover" } }
+        }
+      ]
+    },
+
+    '2_mahesh': {
+      title: "2. Setter Sets to Mahesh (Options & Defense)",
+      tip: "💡 <strong>Mahesh Matchup:</strong> Somu & Raja form a solid double wall on RF; Guna lines up his chest at 21ft in Zone 5!",
+      instructions: [
+        "<strong>Phase 1:</strong> Opponent back-sets Mahesh. Somu & Raja form double block.",
+        "<strong>Phase 2:</strong> Mahesh spikes hard cross toward Zone 5 (Guna).",
+        "<strong>Phase 3:</strong> Guna absorbs the hit with low platform and pops it to Raja.",
+        "<strong>Phase 4:</strong> Raja delivers high ball to outside pin."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/4: Back Set to Mahesh", desc: "Somu & Raja shift together to lock down Mahesh's hard cross angle.",
+          ball: { top: "240px", left: "320px" }, focus: { block: ["us_p3", "us_p2"], dig: ["us_lb"] },
+          opp: { opp_l: { top: "180px", left: "80px", label: "Ashwin", role: "Cover" }, opp_m: { top: "230px", left: "220px", label: "Setter", role: "Back Set" }, opp_r: { top: "280px", left: "360px", label: "Mahesh", role: "Approach" } },
+          us: { us_p4: { top: "460px", left: "85px", label: "Pratap", role: "Off-Blk Dig" }, us_p3: { top: "395px", left: "275px", label: "Somu", role: "Mid Block" }, us_p2: { top: "395px", left: "360px", label: "Raja", role: "Pin Block" }, us_rover: { top: "525px", left: "240px", label: "Sunny", role: "Cover Tip" }, us_lb: { top: "640px", left: "90px", label: "Guna", role: "Zone 5 (21ft)" }, us_rb: { top: "645px", left: "350px", label: "Sunil", role: "Line Dig" } }
+        },
+        {
+          tag: "Phase 2/4: Heavy Cross Spike by Mahesh", desc: "Mahesh spikes hard cross-court toward Zone 5.",
+          ball: { top: "500px", left: "190px" }, focus: { block: ["us_p3", "us_p2"], dig: ["us_lb"] },
+          opp: { opp_l: { top: "200px", left: "90px", label: "Ashwin", role: "Cover" }, opp_m: { top: "240px", left: "220px", label: "Setter", role: "Watch" }, opp_r: { top: "320px", left: "360px", label: "Mahesh", role: "Power Spike" } },
+          us: { us_p4: { top: "460px", left: "85px", label: "Pratap", role: "Off-Blk Low" }, us_p3: { top: "390px", left: "275px", label: "Somu", role: "Press Hands" }, us_p2: { top: "390px", left: "360px", label: "Raja", role: "Seal Line" }, us_rover: { top: "525px", left: "240px", label: "Sunny", role: "Hold Rover" }, us_lb: { top: "630px", left: "90px", label: "Guna", role: "Absorb Dig" }, us_rb: { top: "645px", left: "350px", label: "Sunil", role: "Hold Line" } }
+        },
+        {
+          tag: "Phase 3/4: Guna Digs Heat to Raja (RF)", desc: "Guna absorbs heat and pops a clean high dime to Raja at the net.",
+          ball: { top: "430px", left: "330px" }, focus: { dig: ["us_lb"], focus: ["us_p2"] },
+          opp: { opp_l: { top: "220px", left: "100px", label: "Ashwin", role: "Base" }, opp_m: { top: "240px", left: "220px", label: "Setter", role: "Base" }, opp_r: { top: "330px", left: "360px", label: "Mahesh", role: "Land" } },
+          us: { us_p4: { top: "450px", left: "80px", label: "Pratap", role: "Peel for Set" }, us_p3: { top: "430px", left: "220px", label: "Somu", role: "Turn to Net" }, us_p2: { top: "410px", left: "330px", label: "Raja", role: "Target" }, us_rover: { top: "520px", left: "220px", label: "Sunny", role: "Support" }, us_lb: { top: "635px", left: "90px", label: "Guna", role: "Follow" }, us_rb: { top: "640px", left: "330px", label: "Sunil", role: "Slide In" } }
+        },
+        {
+          tag: "Phase 4/4: Raja Feeds Pin Transition", desc: "Raja pushes clean high ball to Pratap on the left pin.",
+          ball: { top: "405px", left: "85px" }, focus: { focus: ["us_p4"] },
+          opp: { opp_l: { top: "320px", left: "95px", label: "Ashwin", role: "Base Dig" }, opp_m: { top: "320px", left: "215px", label: "Setter", role: "Shift Mid" }, opp_r: { top: "330px", left: "345px", label: "Mahesh", role: "Pin Block" } },
+          us: { us_p4: { top: "405px", left: "85px", label: "Pratap", role: "Drive Spike" }, us_p3: { top: "440px", left: "210px", label: "Somu", role: "Cover Front" }, us_p2: { top: "420px", left: "330px", label: "Raja", role: "Set Complete" }, us_rover: { top: "500px", left: "220px", label: "Sunny", role: "Mid Cover" }, us_lb: { top: "625px", left: "100px", label: "Guna", role: "Cover Back" }, us_rb: { top: "630px", left: "330px", label: "Sunil", role: "Cover Back" } }
+        }
+      ]
+    },
+
+    '3_pratap_hit_cover': {
+      title: "3. When Pratap Hits (Block Recovery)",
+      tip: "💡 <strong>Crucial Feedback:</strong> Do not stand and watch when our hitter swings. Somu, Sunny, Raja, and Guna MUST form a tight 6ft cover ring around Pratap!",
+      instructions: [
+        "<strong>Phase 1:</strong> Raja sets high ball to Pratap.",
+        "<strong>Phase 2:</strong> Somu, Sunny, Raja, and Guna collapse in low 6ft cover ring.",
+        "<strong>Phase 3:</strong> Block rebounds ball; Sunny/Somu pop rebound back to Raja."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/3: Raja Sets High Ball to Pratap", desc: "Raja pushes clean 14ft high ball to Pratap.",
+          ball: { top: "440px", left: "90px" }, focus: { focus: ["us_p4"] },
+          opp: { opp_l: { top: "330px", left: "90px", label: "Ashwin", role: "Form Blk" }, opp_m: { top: "330px", left: "160px", label: "Opp Mid", role: "Form Blk" }, opp_r: { top: "260px", left: "350px", label: "Mahesh", role: "Base Dig" } },
+          us: { us_p4: { top: "450px", left: "80px", label: "Pratap", role: "Approach" }, us_p3: { top: "440px", left: "180px", label: "Somu", role: "Move to Cover" }, us_p2: { top: "430px", left: "320px", label: "Raja", role: "Set & Cover" }, us_rover: { top: "520px", left: "220px", label: "Sunny", role: "Move to Cover" }, us_lb: { top: "630px", left: "100px", label: "Guna", role: "Move to Cover" }, us_rb: { top: "635px", left: "340px", label: "Sunil", role: "Deep Cover" } }
+        },
+        {
+          tag: "Phase 2/3: Pratap Swings & Team Forms 6ft Cover", desc: "Somu, Sunny, Raja, and Guna collapse directly beneath the block.",
+          ball: { top: "400px", left: "85px" }, focus: { dig: ["us_p3", "us_rover", "us_lb"], focus: ["us_p4"] },
+          opp: { opp_l: { top: "350px", left: "85px", label: "Ashwin", role: "Press Net" }, opp_m: { top: "350px", left: "145px", label: "Opp Mid", role: "Press Net" }, opp_r: { top: "270px", left: "350px", label: "Mahesh", role: "Deep Cover" } },
+          us: { us_p4: { top: "400px", left: "85px", label: "Pratap", role: "Attack Net" }, us_p3: { top: "435px", left: "135px", label: "Somu", role: "Low Cover (6ft)" }, us_p2: { top: "440px", left: "290px", label: "Raja", role: "Off Cover" }, us_rover: { top: "495px", left: "170px", label: "Sunny", role: "Mid Cover" }, us_lb: { top: "550px", left: "95px", label: "Guna", role: "Back Cover" }, us_rb: { top: "610px", left: "300px", label: "Sunil", role: "Balance" } }
+        },
+        {
+          tag: "Phase 3/3: Rebound Block Dig & Recycle", desc: "Blocked ball bounces into our cover ring; popped right back to Raja.",
+          ball: { top: "460px", left: "150px" }, focus: { dig: ["us_p3", "us_rover"] },
+          opp: { opp_l: { top: "355px", left: "85px", label: "Ashwin", role: "Land" }, opp_m: { top: "355px", left: "145px", label: "Opp Mid", role: "Land" }, opp_r: { top: "270px", left: "350px", label: "Mahesh", role: "Base" } },
+          us: { us_p4: { top: "430px", left: "85px", label: "Pratap", role: "Reset" }, us_p3: { top: "450px", left: "145px", label: "Somu", role: "Dig Rebound!" }, us_p2: { top: "420px", left: "310px", label: "Raja", role: "Ready Next" }, us_rover: { top: "485px", left: "175px", label: "Sunny", role: "Cover Done" }, us_lb: { top: "560px", left: "95px", label: "Guna", role: "Cover" }, us_rb: { top: "610px", left: "300px", label: "Sunil", role: "Base" } }
+        }
+      ]
+    },
+
+    '4_block_conviction': {
+      title: "4. When We Block (100% Conviction Rule)",
+      tip: "💡 <strong>Rule:</strong> 'Either commit 100% with penetrating hands across the net or do not jump!' No half-hearted jumps!",
+      instructions: [
+        "<strong>Phase 1:</strong> Blockers call 'UP!' and jump with penetrating hands.",
+        "<strong>Phase 2:</strong> Penetrate over the net, taking away hard cross.",
+        "<strong>Phase 3:</strong> Guna & Sunil hold 21ft with active bent knees behind the block."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/2: Full Block Penetration Across Net", desc: "Blockers press both hands firmly over the white tape to eliminate angle.",
+          ball: { top: "360px", left: "120px" }, focus: { block: ["us_p4", "us_p3"] },
+          opp: { opp_l: { top: "320px", left: "80px", label: "Ashwin", role: "Spike Cross" }, opp_m: { top: "240px", left: "220px", label: "Setter", role: "Watch" }, opp_r: { top: "200px", left: "350px", label: "Mahesh", role: "Cover" } },
+          us: { us_p4: { top: "375px", left: "80px", label: "Pratap", role: "Press Over Net!" }, us_p3: { top: "375px", left: "145px", label: "Somu", role: "Press Over Net!" }, us_p2: { top: "440px", left: "340px", label: "Raja", role: "RF Cover" }, us_rover: { top: "510px", left: "190px", label: "Sunny", role: "Shadow Hole" }, us_lb: { top: "630px", left: "90px", label: "Guna", role: "21ft Depth" }, us_rb: { top: "635px", left: "350px", label: "Sunil", role: "21ft Depth" } }
+        },
+        {
+          tag: "Phase 2/2: Block Rejection or Clean Funnel", desc: "Committed wall stuffs the ball straight down into opponent grass.",
+          ball: { top: "320px", left: "120px" }, focus: { block: ["us_p4", "us_p3"] },
+          opp: { opp_l: { top: "330px", left: "80px", label: "Ashwin", role: "Blocked!" }, opp_m: { top: "260px", left: "220px", label: "Setter", role: "Scramble" }, opp_r: { top: "240px", left: "350px", label: "Mahesh", role: "Scramble" } },
+          us: { us_p4: { top: "390px", left: "80px", label: "Pratap", role: "Land Clean" }, us_p3: { top: "390px", left: "145px", label: "Somu", role: "Land Clean" }, us_p2: { top: "440px", left: "340px", label: "Raja", role: "Ready Next" }, us_rover: { top: "510px", left: "190px", label: "Sunny", role: "Ready Next" }, us_lb: { top: "630px", left: "90px", label: "Guna", role: "Ready Next" }, us_rb: { top: "635px", left: "350px", label: "Sunil", role: "Ready Next" } }
+        }
+      ]
+    },
+
+    '5_pratap_weakness': {
+      title: "5. Pratap Fix: Peel to 3m & Face Inward",
+      tip: "💡 <strong>Technical Fix:</strong> When pass goes right side to Raja, Pratap must peel back to the 3m line and turn his chest INWARD to face Raja.",
+      instructions: [
+        "<strong>Phase 1:</strong> Pass goes to Raja (RF). Pratap instantly peels off tape.",
+        "<strong>Phase 2:</strong> Pratap holds 3m line (10ft) and angles hips inward."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/2: Ball Shifted to Raja (RF)", desc: "Pass goes right. Pratap immediately peels off the white tape.",
+          ball: { top: "460px", left: "310px" }, focus: { focus: ["us_p4"] },
+          opp: { opp_l: { top: "250px", left: "80px", label: "Ashwin", role: "Base" }, opp_m: { top: "250px", left: "220px", label: "Setter", role: "Base" }, opp_r: { top: "250px", left: "360px", label: "Mahesh", role: "Base" } },
+          us: { us_p4: { top: "420px", left: "80px", label: "Pratap", role: "Peel Back!" }, us_p3: { top: "420px", left: "200px", label: "Somu", role: "Middle Base" }, us_p2: { top: "420px", left: "330px", label: "Raja", role: "RF Setter" }, us_rover: { top: "510px", left: "220px", label: "Sunny", role: "Center Base" }, us_lb: { top: "630px", left: "90px", label: "Guna", role: "Hold Base" }, us_rb: { top: "635px", left: "350px", label: "Sunil", role: "Hold Base" } }
+        },
+        {
+          tag: "Phase 2/2: Pratap at 3m Line Facing Inward", desc: "Pratap holds 3m line, hips angled 45° inward to watch Raja.",
+          ball: { top: "410px", left: "330px" }, focus: { focus: ["us_p4", "us_p2"] },
+          opp: { opp_l: { top: "330px", left: "90px", label: "Ashwin", role: "Base" }, opp_m: { top: "330px", left: "220px", label: "Setter", role: "Shift Right" }, opp_r: { top: "330px", left: "350px", label: "Mahesh", role: "Block Pin" } },
+          us: { us_p4: { top: "480px", left: "70px", label: "Pratap", role: "Face Inward!" }, us_p3: { top: "440px", left: "210px", label: "Somu", role: "Cover Mid" }, us_p2: { top: "410px", left: "330px", label: "Raja", role: "Set to Pin" }, us_rover: { top: "510px", left: "220px", label: "Sunny", role: "Mid Cover" }, us_lb: { top: "625px", left: "100px", label: "Guna", role: "Cover Back" }, us_rb: { top: "630px", left: "320px", label: "Sunil", role: "Cover Back" } }
+        }
+      ]
+    },
+
+    '6_raja_setter_flow': {
+      title: "6. Raja: Setter Distribution Flow",
+      tip: "💡 <strong>Front-Row Setting:</strong> Raja controls Right Front (RF), distributing high balls to LF/MF while conserving energy.",
+      instructions: [
+        "<strong>Phase 1:</strong> Sunny passes cleanly from Center-Up to Raja at RF target.",
+        "<strong>Phase 2:</strong> Raja sets 14ft high ball to Pratap.",
+        "<strong>Phase 3:</strong> Pratap spikes cleanly past opponent block."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/2: Sunny Feeds Raja at RF Target", desc: "Sunny delivers a smooth dime from 13ft to Raja.",
+          ball: { top: "430px", left: "320px" }, focus: { focus: ["us_p2"], dig: ["us_rover"] },
+          opp: { opp_l: { top: "250px", left: "80px", label: "Ashwin", role: "Base" }, opp_m: { top: "250px", left: "220px", label: "Setter", role: "Base" }, opp_r: { top: "250px", left: "360px", label: "Mahesh", role: "Base" } },
+          us: { us_p4: { top: "460px", left: "75px", label: "Pratap", role: "Load Pin" }, us_p3: { top: "440px", left: "190px", label: "Somu", role: "Load Mid" }, us_p2: { top: "410px", left: "330px", label: "Raja", role: "RF Target" }, us_rover: { top: "510px", left: "220px", label: "Sunny", role: "Dime to Raja" }, us_lb: { top: "635px", left: "90px", label: "Guna", role: "Cover" }, us_rb: { top: "640px", left: "340px", label: "Sunil", role: "Cover" } }
+        },
+        {
+          tag: "Phase 2/2: Raja Sets 14ft High Ball to Pin", desc: "Raja delivers a high, repeatable 14ft ball to Pratap.",
+          ball: { top: "405px", left: "80px" }, focus: { focus: ["us_p4"] },
+          opp: { opp_l: { top: "330px", left: "90px", label: "Ashwin", role: "Block Pin" }, opp_m: { top: "330px", left: "180px", label: "Setter", role: "Shift Mid" }, opp_r: { top: "250px", left: "350px", label: "Mahesh", role: "Deep Dig" } },
+          us: { us_p4: { top: "405px", left: "80px", label: "Pratap", role: "Full Kill" }, us_p3: { top: "445px", left: "175px", label: "Somu", role: "Cover Middle" }, us_p2: { top: "420px", left: "320px", label: "Raja", role: "Set Complete" }, us_rover: { top: "500px", left: "200px", label: "Sunny", role: "Cover Mid" }, us_lb: { top: "625px", left: "100px", label: "Guna", role: "Cover Left" }, us_rb: { top: "630px", left: "320px", label: "Sunil", role: "Cover Mid" } }
+        }
+      ]
+    },
+
+    '7_rohit_wait_up': {
+      title: "7. Rohit: Wait Up on Broken Passes",
+      tip: "💡 <strong>Front-Row Patience:</strong> If pass shanks, Rohit (Front Row Hitter) must NOT rush net. Wait at 10-ft line for front-row approach!",
+      instructions: [
+        "<strong>Phase 1:</strong> Pass is broken and shanks deep.",
+        "<strong>Phase 2:</strong> Rohit holds 10-ft line (waiting for front-row attack approach).",
+        "<strong>Phase 3:</strong> Raja delivers high ball; Rohit takes full approach and attacks."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/2: Broken Pass - Rohit Holds 10ft Line", desc: "Pass is off. Rohit (Front Row) holds depth at 10-ft line.",
+          ball: { top: "590px", left: "270px" }, focus: { focus: ["us_p4", "us_p2"] },
+          opp: { opp_l: { top: "320px", left: "90px", label: "Ashwin", role: "Wait Blk" }, opp_m: { top: "320px", left: "220px", label: "Opp Mid", role: "Wait Blk" }, opp_r: { top: "320px", left: "350px", label: "Mahesh", role: "Wait Blk" } },
+          us: { us_p4: { top: "480px", left: "75px", label: "Rohit", role: "Wait at 10ft!" }, us_p3: { top: "450px", left: "190px", label: "Somu", role: "Hold Mid" }, us_p2: { top: "560px", left: "310px", label: "Raja", role: "High Setter" }, us_rover: { top: "520px", left: "200px", label: "Sunny", role: "Hold Center" }, us_lb: { top: "640px", left: "90px", label: "Guna", role: "Hold Depth" }, us_rb: { top: "640px", left: "350px", label: "Sunil", role: "Hold Depth" } }
+        },
+        {
+          tag: "Phase 2/2: Full High-Ball Approach & Attack", desc: "Rohit gets a relaxed 3-step front-row jump approach on Raja's ball.",
+          ball: { top: "410px", left: "80px" }, focus: { focus: ["us_p4"] },
+          opp: { opp_l: { top: "350px", left: "85px", label: "Ashwin", role: "Block Pin" }, opp_m: { top: "345px", left: "160px", label: "Opp Mid", role: "Shift Mid" }, opp_r: { top: "250px", left: "350px", label: "Mahesh", role: "Deep Dig" } },
+          us: { us_p4: { top: "410px", left: "80px", label: "Rohit", role: "Front-Row Hit" }, us_p3: { top: "445px", left: "160px", label: "Somu", role: "Cover Hit" }, us_p2: { top: "440px", left: "300px", label: "Raja", role: "Set Done" }, us_rover: { top: "510px", left: "200px", label: "Sunny", role: "Mid Cover" }, us_lb: { top: "615px", left: "100px", label: "Guna", role: "Cover Left" }, us_rb: { top: "625px", left: "320px", label: "Sunil", role: "Cover Mid" } }
+        }
+      ]
+    },
+
+    '8_guna_vocal_lead': {
+      title: "8. Guna: Vocal Back Court Defense Lead",
+      tip: "💡 <strong>Defense Captain:</strong> Guna owns Back Row Zone 5 (21ft). Commands the defense vocally—calling 'MINE', directing Sunil, and feeding Raja!",
+      instructions: [
+        "<strong>Phase 1:</strong> Guna sets defensive depth at 21ft and shouts alignment.",
+        "<strong>Phase 2:</strong> Loudly calls 'MINE!' on hard-driven balls.",
+        "<strong>Phase 3:</strong> Delivers high, repeatable pass to Raja."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/2: Guna Directs Back-Row Alignment", desc: "Guna commands perimeter depth and ensures Sunil is locked.",
+          ball: { top: "250px", left: "300px" }, focus: { dig: ["us_lb"] },
+          opp: { opp_l: { top: "200px", left: "80px", label: "Ashwin", role: "Cover" }, opp_m: { top: "220px", left: "220px", label: "Setter", role: "Set Pin" }, opp_r: { top: "280px", left: "360px", label: "Mahesh", role: "Power Spike" } },
+          us: { us_p4: { top: "450px", left: "85px", label: "Pratap", role: "Off Dig" }, us_p3: { top: "395px", left: "275px", label: "Somu", role: "Mid Block" }, us_p2: { top: "395px", left: "360px", label: "Raja", role: "Pin Block" }, us_rover: { top: "520px", left: "240px", label: "Sunny", role: "Cover Tip" }, us_lb: { top: "635px", left: "90px", label: "Guna", role: "VOCAL LEAD!" }, us_rb: { top: "640px", left: "350px", label: "Sunil", role: "Hold Line" } }
+        },
+        {
+          tag: "Phase 2/2: Guna Shouts 'MINE!' & Absorbs Dig", desc: "Guna calls it early, absorbs heat, and feeds a clean dime to Raja.",
+          ball: { top: "420px", left: "330px" }, focus: { dig: ["us_lb"], focus: ["us_p2"] },
+          opp: { opp_l: { top: "220px", left: "90px", label: "Ashwin", role: "Base" }, opp_m: { top: "240px", left: "220px", label: "Setter", role: "Base" }, opp_r: { top: "330px", left: "360px", label: "Mahesh", role: "Land" } },
+          us: { us_p4: { top: "440px", left: "80px", label: "Pratap", role: "Peel Pin" }, us_p3: { top: "430px", left: "220px", label: "Somu", role: "Turn Net" }, us_p2: { top: "410px", left: "330px", label: "Raja", role: "Clean Target" }, us_rover: { top: "520px", left: "220px", label: "Sunny", role: "Support" }, us_lb: { top: "635px", left: "90px", label: "Guna", role: "Dime Pass!" }, us_rb: { top: "635px", left: "330px", label: "Sunil", role: "Support" } }
+        }
+      ]
+    },
+
+    '9_underarm_free': {
+      title: "9. Opponent Free Ball (No Backrow Attack)",
+      tip: "💡 <strong>Free Ball Execution:</strong> Shout 'FREE!'. Front row peels to 10-ft line to load jump. Back row (Guna/Sunil) strictly passes.",
+      instructions: [
+        "<strong>Phase 1:</strong> Opponent pushes underarm. Front shouts 'FREE!'.",
+        "<strong>Phase 2:</strong> Front row peels to 10-ft line (480px) to load front-row jump.",
+        "<strong>Phase 3:</strong> Backrow players pass to Raja for in-system front-row kill."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/2: Bump Spotted - Shout FREE!", desc: "Front row spots underarm motion and retreats to 10-ft line.",
+          ball: { top: "280px", left: "220px" }, focus: { focus: ["us_p4", "us_p3"] },
+          opp: { opp_l: { top: "200px", left: "75px", label: "Ashwin", role: "Transition" }, opp_m: { top: "280px", left: "220px", label: "Underarm", role: "Bump Over" }, opp_r: { top: "200px", left: "365px", label: "Mahesh", role: "Transition" } },
+          us: { us_p4: { top: "410px", left: "80px", label: "Pratap", role: "Shout FREE!" }, us_p3: { top: "410px", left: "220px", label: "Somu", role: "Shout FREE!" }, us_p2: { top: "410px", left: "330px", label: "Raja", role: "Target" }, us_rover: { top: "530px", left: "220px", label: "Sunny", role: "Pass Ready" }, us_lb: { top: "640px", left: "90px", label: "Guna", role: "Pass Ready" }, us_rb: { top: "640px", left: "350px", label: "Sunil", role: "Pass Ready" } }
+        },
+        {
+          tag: "Phase 2/2: Front Row Attack Loaded", desc: "Pratap & Somu loaded at 10-ft line; Raja sets front-row for explosive kill.",
+          ball: { top: "410px", left: "80px" }, focus: { focus: ["us_p4"] },
+          opp: { opp_l: { top: "350px", left: "90px", label: "Ashwin", role: "Block Pin" }, opp_m: { top: "345px", left: "180px", label: "Opp Mid", role: "Shift Mid" }, opp_r: { top: "315px", left: "355px", label: "Mahesh", role: "Deep Cover" } },
+          us: { us_p4: { top: "410px", left: "80px", label: "Pratap", role: "Front Kill!" }, us_p3: { top: "445px", left: "185px", label: "Somu", role: "Cover Mid" }, us_p2: { top: "420px", left: "330px", label: "Raja", role: "Set Done" }, us_rover: { top: "505px", left: "220px", label: "Sunny", role: "Cover" }, us_lb: { top: "625px", left: "95px", label: "Guna", role: "Cover" }, us_rb: { top: "630px", left: "330px", label: "Sunil", role: "Cover" } }
+        }
+      ]
+    },
+
+    '10_two_hand_push': {
+      title: "10. Opponent 3rd Touch: 2-Hand Deep Push",
+      tip: "💡 <strong>Open Overhead Hands:</strong> On high corner pushes, backrow (Guna/Sunil) stand firm at 21ft with open setting hands to cushion the pass!",
+      instructions: [
+        "<strong>Phase 1:</strong> Opponent pushes deep flat ball to back corners.",
+        "<strong>Phase 2:</strong> Guna/Sunil square feet at 21ft with hands above forehead.",
+        "<strong>Phase 3:</strong> Cushion ball smoothly into Raja at the net."
+      ],
+      phases: [
+        {
+          tag: "Phase 1/2: Deep 2-Hand Corner Push", desc: "Opponent pushes flat floater to deep corner.",
+          ball: { top: "350px", left: "220px" }, focus: { dig: ["us_lb", "us_rb"] },
+          opp: { opp_l: { top: "215px", left: "75px", label: "Ashwin", role: "Base" }, opp_m: { top: "290px", left: "220px", label: "Pusher", role: "Deep Push" }, opp_r: { top: "215px", left: "365px", label: "Mahesh", role: "Base" } },
+          us: { us_p4: { top: "460px", left: "80px", label: "Pratap", role: "Turn Watch" }, us_p3: { top: "450px", left: "220px", label: "Somu", role: "Turn Watch" }, us_p2: { top: "420px", left: "330px", label: "Raja", role: "Target" }, us_rover: { top: "530px", left: "220px", label: "Sunny", role: "Hold 12ft" }, us_lb: { top: "650px", left: "80px", label: "Guna", role: "Square Up!" }, us_rb: { top: "650px", left: "360px", label: "Sunil", role: "Square Up!" } }
+        },
+        {
+          tag: "Phase 2/2: Cushion Pass to Raja", desc: "Guna cushions high push with setting hands smoothly to Raja.",
+          ball: { top: "420px", left: "330px" }, focus: { dig: ["us_lb"], focus: ["us_p2"] },
+          opp: { opp_l: { top: "245px", left: "75px", label: "Ashwin", role: "Base" }, opp_m: { top: "275px", left: "220px", label: "Pusher", role: "Base" }, opp_r: { top: "245px", left: "365px", label: "Mahesh", role: "Base" } },
+          us: { us_p4: { top: "465px", left: "80px", label: "Pratap", role: "Step Wide" }, us_p3: { top: "455px", left: "220px", label: "Somu", role: "Step Net" }, us_p2: { top: "410px", left: "330px", label: "Raja", role: "High Target" }, us_rover: { top: "520px", left: "220px", label: "Sunny", role: "Cover Mid" }, us_lb: { top: "640px", left: "95px", label: "Guna", role: "Hands Pass" }, us_rb: { top: "645px", left: "340px", label: "Sunil", role: "Slide In" } }
+        }
+      ]
+    }
+  };
+
+  function renderPhase(scenarioKey, phaseIndex) {
+    const scenario = scenarios[scenarioKey];
+    if (!scenario || !scenario.phases[phaseIndex]) return;
+    const phase = scenario.phases[phaseIndex];
+
+    document.getElementById('phase-tag').textContent = phase.tag;
+    document.getElementById('phase-desc').textContent = phase.desc;
+
+    const dots = document.querySelectorAll('.phase-dots .dot');
+    dots.forEach((d, idx) => {
+      d.classList.toggle('active', idx === phaseIndex);
+      d.style.display = idx < scenario.phases.length ? 'block' : 'none';
+    });
+
+    const ball = document.getElementById('ball');
+    ball.style.top = phase.ball.top; ball.style.left = phase.ball.left;
+
+    document.querySelectorAll('.token').forEach(t => t.classList.remove('active-focus', 'active-block', 'active-dig'));
+
+    for (let p in phase.opp) {
+      const el = document.getElementById(p);
+      if (el) { el.style.top = phase.opp[p].top; el.style.left = phase.opp[p].left; el.children[0].textContent = phase.opp[p].label; el.children[1].textContent = phase.opp[p].role; }
+    }
+    for (let p in phase.us) {
+      const el = document.getElementById(p);
+      if (el) { el.style.top = phase.us[p].top; el.style.left = phase.us[p].left; el.children[0].textContent = phase.us[p].label; el.children[1].textContent = phase.us[p].role; }
+    }
+
+    if (phase.focus) {
+      if (phase.focus.focus) phase.focus.focus.forEach(id => document.getElementById(id)?.classList.add('active-focus'));
+      if (phase.focus.block) phase.focus.block.forEach(id => document.getElementById(id)?.classList.add('active-block'));
+      if (phase.focus.dig) phase.focus.dig.forEach(id => document.getElementById(id)?.classList.add('active-dig'));
+    }
+  }
+
+  function selectScenario(key, rowElement) {
+    pauseMotion();
+    document.querySelectorAll('.scenario-list .scenario-row').forEach(r => {
+      r.classList.remove('active'); r.querySelector('.inline-play-btn').textContent = '▶';
+    });
+    if (rowElement) rowElement.classList.add('active');
+
+    currentKey = key; currentPhase = 0;
+    const data = scenarios[key];
+    document.getElementById('scenario-title').textContent = data.title;
+    
+    const list = document.getElementById('scenario-instructions');
+    list.innerHTML = '';
+    data.instructions.forEach(ins => {
+      const li = document.createElement('li'); li.innerHTML = ins; list.appendChild(li);
+    });
+    document.getElementById('scenario-tip').innerHTML = data.tip;
+
+    renderPhase(currentKey, 0);
+  }
+
+  function stepMotion() {
+    pauseMotion();
+    const scenario = scenarios[currentKey];
+    currentPhase = (currentPhase + 1) % scenario.phases.length;
+    renderPhase(currentKey, currentPhase);
+  }
+
+  function resetMotion() {
+    pauseMotion(); currentPhase = 0; renderPhase(currentKey, 0);
+  }
+
+  function togglePlay() {
+    if (isPlaying) pauseMotion(); else playMotion();
+  }
+
+  function playMotion() {
+    isPlaying = true; clearInterval(playInterval);
+    document.getElementById('play-btn').textContent = "⏸ Pause";
+    const activeRowBtn = document.querySelector('.scenario-row.active .inline-play-btn');
+    if (activeRowBtn) activeRowBtn.textContent = '⏸';
+
+    playInterval = setInterval(() => {
+      const scenario = scenarios[currentKey];
+      currentPhase = (currentPhase + 1) % scenario.phases.length;
+      renderPhase(currentKey, currentPhase);
+    }, STEP_SPEED_MS);
+  }
+
+  function pauseMotion() {
+    isPlaying = false; clearInterval(playInterval);
+    document.getElementById('play-btn').textContent = "▶ Play Motion";
+    const activeRowBtn = document.querySelector('.scenario-row.active .inline-play-btn');
+    if (activeRowBtn) activeRowBtn.textContent = '▶';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadCheatSheet('Pratap', document.querySelector('.player-pill.active'));
+    renderPhase('1_ashwin', 0); pauseMotion();
+  });
+</script>
+
+</body>
+</html>
