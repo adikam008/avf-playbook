@@ -287,7 +287,7 @@
 <div class="container">
   <div class="sidebar">
 
-    <!-- NEW: EXPLICIT STARTING LINEUP -->
+    <!-- EXPLICIT STARTING LINEUP BOX -->
     <div class="lineup-box">
       <h4>🎯 Official Starting Lineup</h4>
       <div class="lineup-grid">
@@ -323,7 +323,13 @@
     </div>
 
     <div class="scenario-list">
-      <div class="scenario-row active" onclick="selectScenario('1_ashwin', this)">
+      <!-- NEW SCENARIO 0: STARTING LINEUP -->
+      <div class="scenario-row active" onclick="selectScenario('0_starting_lineup', this)">
+        <div class="s-info"><span class="s-title">0. Official Starting Positions</span><span class="s-sub">Court zones at the start of the match</span></div>
+        <button class="inline-play-btn">▶</button>
+      </div>
+
+      <div class="scenario-row" onclick="selectScenario('1_ashwin', this)">
         <div class="s-info"><span class="s-title">1. Setter Sets to Ashwin</span><span class="s-sub">Pratap/Somu Wall + Sunny Scoops to Raja</span></div>
         <button class="inline-play-btn">▶</button>
       </div>
@@ -366,14 +372,13 @@
     </div>
 
     <div class="info-card">
-      <h3 id="scenario-title">1. Setter Sets to Ashwin</h3>
+      <h3 id="scenario-title">0. Official Starting Positions</h3>
       <ul id="scenario-instructions">
-        <li><strong>Ashwin's Options:</strong> Wrist flicks into 12-14ft hole, sharp lines.</li>
-        <li><strong>Block Defense:</strong> Pratap & Somu jump together; Raja holds RF.</li>
-        <li><strong>Sunny (13 ft):</strong> Stays on toes at Center-Up to scoop short balls to Raja.</li>
+        <li><strong>Front Row:</strong> Adi (Pos 4), Somu (Pos 3), Raja (Pos 2)</li>
+        <li><strong>Back Row:</strong> Sunny (Pos 5), Murali (Pos 6), Sunil (Pos 1)</li>
       </ul>
       <div class="tactical-box" id="scenario-tip">
-        💡 <strong>Key Focus:</strong> Ashwin thrives when blockers jump late. Sunny owns the 12-14 ft tip pocket!
+        💡 <strong>Whistle Blows:</strong> This is exactly how we line up to start the match. Notice Murali takes the back-row spot for Pratap immediately.
       </div>
     </div>
   </div>
@@ -581,13 +586,38 @@
   }
 
   // --- EXISTING PLAYBOOK LOGIC ---
-  let currentKey = '1_ashwin';
+  let currentKey = '0_starting_lineup';
   let currentPhase = 0;
   let isPlaying = false;
   let playInterval = null;
   const STEP_SPEED_MS = 2500;
 
   const scenarios = {
+    '0_starting_lineup': {
+      title: "0. Official Starting Lineup & Zones",
+      tip: "💡 <strong>Whistle Blows:</strong> This is exactly how we line up to start the match. Notice Murali takes the back-row spot for Pratap immediately.",
+      instructions: [
+        "<strong>Front Row:</strong> Adi (Pos 4), Somu (Pos 3), Raja (Pos 2)",
+        "<strong>Back Row:</strong> Sunny (Pos 5), Murali (Pos 6), Sunil (Pos 1)",
+        "<strong>Flow:</strong> As soon as we rotate, follow the standard substitution rules!"
+      ],
+      phases: [
+        {
+          tag: "Starting Lineup - Base Positions", desc: "Players in their rotational starting zones.",
+          ball: { top: "360px", left: "220px" }, focus: { focus: ["us_p4", "us_p3", "us_p2", "us_rover", "us_lb", "us_rb"] },
+          opp: { opp_l: { top: "200px", left: "80px", label: "Opp 4", role: "LF" }, opp_m: { top: "200px", left: "220px", label: "Opp 3", role: "MF" }, opp_r: { top: "200px", left: "360px", label: "Opp 2", role: "RF" } },
+          us: { 
+            us_p4: { top: "440px", left: "80px", label: "Adi", role: "Pos 4" }, 
+            us_p3: { top: "440px", left: "220px", label: "Somu", role: "Pos 3" }, 
+            us_p2: { top: "440px", left: "360px", label: "Raja", role: "Pos 2" }, 
+            us_lb: { top: "620px", left: "80px", label: "Sunny", role: "Pos 5" }, 
+            us_rover: { top: "620px", left: "220px", label: "Murali", role: "Pos 6" }, 
+            us_rb: { top: "620px", left: "360px", label: "Sunil", role: "Pos 1" } 
+          }
+        }
+      ]
+    },
+
     '1_ashwin': {
       title: "1. Setter Sets to Ashwin (Options & Defense)",
       tip: "💡 <strong>Ashwin Matchup:</strong> Ashwin looks for defenders backing off. Pratap & Somu form a committed wall; Sunny scoops the tip at 13ft straight to Raja!",
@@ -953,7 +983,8 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     loadCheatSheet('Pratap', document.querySelector('.player-pill.active'));
-    renderPhase('1_ashwin', 0); pauseMotion();
+    // Load Starting Lineup by Default
+    renderPhase('0_starting_lineup', 0); pauseMotion();
   });
 </script>
 
